@@ -1,5 +1,5 @@
 // ===== RSVP 送信先（GAS WebアプリURL） =====
-const ENDPOINT_URL = 'https://script.google.com/macros/s/AKfycby6a6BGHYpTe65-CQWLH8tfSGkLqDfh4T61VuSOhneN9SaHsD3QN0-CUDhSIBORNBet/exec';
+const ENDPOINT_URL = 'https://script.google.com/macros/library/d/1wgb5XujD-FfNHpxZTV272jlmW7EFDS_7-FwSJuqRZ3H-yzrOxUiE-qXN/4';
 
 document.addEventListener("DOMContentLoaded", () => {
   const body = document.body;
