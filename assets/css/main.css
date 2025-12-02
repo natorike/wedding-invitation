@@ -1,0 +1,1063 @@
+/* =========================================
+   RESET / BASE
+========================================= */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* ルート要素(html)をスクロールコンテナにする */
+html {
+  height: 100%;
+  scroll-behavior: smooth;
+  scroll-snap-type: y mandatory;
+  overscroll-behavior-y: contain;
+}
+
+/* body は見た目のスタイルだけ担当させる */
+body {
+  min-height: 100%;
+  margin: 0;
+  font-family: "Noto Serif JP", "游明朝", YuMincho, "Times New Roman", serif;
+  color: #333;
+  background-color: #f7f5f1;
+  line-height: 1.6;
+}
+
+/* main は普通のラッパー（snap は html が担当） */
+main {
+  position: relative;
+  z-index: 0;
+}
+
+/* スナップ対象セクション */
+.snap-section {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  min-height: 100vh;
+}
+
+/* 画像共通 */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* 言語切り替え表示制御 */
+body.jp .lang-en-only { display: none !important; }
+body.en .lang-ja-only { display: none !important; }
+
+body.jp .lang-ja-area { display: block; }
+body.en .lang-ja-area { display: none; }
+
+
+/* =========================================
+   FIRST VIEW 動画
+========================================= */
+#fvVideoArea {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  overflow: hidden;
+}
+
+/* 2つのvideoに共通の基本スタイル */
+#fvVideoSp,
+#fvVideoPc {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* デフォルトはSP想定：縦動画を表示、横動画は隠す */
+#fvVideoSp {
+  display: block;
+}
+#fvVideoPc {
+  display: none;
+}
+
+/* FVオーバーレイ（光＋淡い暗さ） */
+#fvVideoCover {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      circle at 10% 100%,
+      rgba(255, 255, 245, 0.15) 0%,
+      rgba(255, 255, 245, 0.05) 30%,
+      transparent 55%
+    ),
+    linear-gradient(
+      to top,
+      rgba(0,0,0,0.08),
+      rgba(0,0,0,0.00) 60%
+    );
+  z-index: 1;
+}
+
+/* FVの上にかぶせる白レイヤー（FV以降で背景を白にする） */
+#fvFadeOverlay {
+  position: absolute;
+  inset: 0;
+  background: #ffffff;
+  opacity: 0;
+  z-index: 2;
+  pointer-events: none;
+  transition: opacity 0.15s linear;
+}
+
+/* FVを抜けたら白レイヤーを出す（JSで body.after-fv を付与） */
+body.after-fv #fvFadeOverlay {
+  opacity: 1;
+}
+
+/* FVの下のスペース（最初のスナップ位置） */
+#fvVideoAreaSpace {
+  height: 100vh;
+}
+
+
+/* =========================================
+   ロゴ（tagline）
+========================================= */
+#logo {
+  position: fixed;
+  z-index: 3;
+  bottom: 32px;
+  left: 32px;
+  margin: 0;
+  opacity: 0;
+  transform: translateY(10px);
+  transition:
+    opacity 1.4s ease-out,
+    transform 0.8s ease-out;
+}
+
+/* ページロード時のフェードイン */
+body.is-loaded #logo {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* message セクション中は少し小さく（JSで body.logo-small） */
+body.logo-small #logo {
+  transform: translateY(0) scale(0.8);
+  opacity: 1;
+}
+
+/* Profile 以降でロゴを消す（JSで body.after-profile） */
+body.after-profile #logo {
+  opacity: 0;
+  pointer-events: none;
+}
+
+
+/* =========================================
+   言語切り替えボタン
+========================================= */
+#lang {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 4;
+  opacity: 1;
+  transition: opacity .4s ease;
+}
+
+#langList {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  list-style: none;
+  margin: 0;
+  padding: 20px 20px;
+}
+
+#langList button {
+  border: none;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+  opacity: 0.4;
+  transition: opacity 0.2s;
+}
+
+#langList button.active,
+#langList button:hover {
+  opacity: 1;
+}
+
+
+/* =========================================
+   グローバルナビ
+========================================= */
+#gnavi {
+  position: fixed;
+  left: 0;
+  bottom: 16px;
+  width: 100%;
+  z-index: 4;
+  opacity: 1;
+  transition: opacity .4s ease;
+}
+
+/* ハンバーガー（SP） */
+#gnaviMenu {
+  display: none; /* SPで上書き */
+}
+
+/* オーバーレイメニュー（黒枠） */
+#gnaviOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  background: transparent;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .35s ease;
+
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  padding: 20px;
+}
+
+/* nav-open 時に表示（JSで body.nav-open を操作） */
+body.nav-open #gnaviOverlay {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* 黒パネル（右下） */
+#gnaviOverlay ul {
+  position: relative;
+  list-style: none;
+  margin: 0;
+  padding: 5px 26px;
+  width: 240px;
+  background: rgba(0, 0, 0, 0.6);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.35);
+  text-align: left;
+  pointer-events: auto;
+}
+
+/* メニュー項目 */
+#gnaviOverlay li + li {
+  margin-top: 8px;
+}
+
+#gnaviOverlay a {
+  display: block;
+  padding: 10px 0;
+  font-size: 1.2rem;
+  letter-spacing: 0.15em;
+  color: #fff;
+  opacity: 0.9;
+  text-decoration: none;
+}
+
+#gnaviOverlay a:hover {
+  opacity: 1;
+}
+
+/* PC用：下部丸ナビ */
+#gnaviPcList {
+  display: flex;
+  gap: 12px;
+  list-style: none;
+  margin: 0 auto;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(10px);
+  width: fit-content;
+}
+
+#gnaviPcList a {
+  display: block;
+  opacity: 0.65;
+  transition: opacity 0.2s;
+}
+
+#gnaviPcList a.current,
+#gnaviPcList a:hover {
+  opacity: 1;
+}
+
+/* FVを抜けたら lang / gnavi を消す */
+body.after-fv #gnavi,
+body.after-fv #lang {
+  opacity: 0;
+  pointer-events: none;
+}
+
+
+/* =========================================
+   セクション共通
+========================================= */
+.section-block {
+  position: relative;
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.8s ease-out,
+    transform 0.8s ease-out;
+}
+
+.section-block.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.section-inner {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 80px 16px;
+}
+
+.section-title {
+  text-align: center;
+  margin: 0 0 0px;
+  font-size: 1.6rem;
+}
+
+
+/* =========================================
+   メッセージ（フルスクリーン）
+========================================= */
+.message {
+  padding: 0;
+}
+
+/* message セクションは full-bleed に */
+.message .section-inner {
+  max-width: none;
+  padding: 0;
+}
+
+/* 画像コンテナを画面いっぱいに */
+.message_image {
+  position: relative;
+  width: 100%;
+  height: 100vh;  /* 画面いっぱい */
+  margin: 0;
+  overflow: hidden;
+}
+
+/* メッセージ画像（SP/PC出し分け） */
+.message-image-sp,
+.message-image-pc {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* デフォルトはSP画像のみ表示 */
+.message-image-sp {
+  display: block;
+}
+.message-image-pc {
+  display: none;
+}
+
+/* 画像上のテキスト */
+.message_overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-end;
+  padding: 12px 32px 24px 24px;
+  pointer-events: none;
+}
+
+.message_box {
+  max-width: 720px;
+  margin: 20px 0 16px;
+  padding: 16px 18px;
+  background: rgba(255,255,255,0.5);
+  color: #000000;
+  text-align: right;
+  pointer-events: auto;
+}
+
+.message_box h4 {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.8;
+}
+
+.messagingBy {
+  color: #000000;
+  text-align: right;
+  pointer-events: auto;
+}
+
+.messagingBy h3 {
+  margin: 0;
+  font-size: 0.9rem;
+  padding-top: 10px;
+  letter-spacing: 0.08em;
+}
+
+.messaging-ja {
+  display: inline-block;
+  text-align: left;
+  line-height: 1.8;
+}
+
+/* =========================================
+   プロフィール（各カードをフルスクリーン）
+========================================= */
+.profile {
+  padding: 0;
+}
+
+.profile .section-inner {
+  max-width: none;
+  padding: 0;
+}
+
+/* プロフィール画像コンテナ */
+.profile_image {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+  overflow: hidden;
+}
+
+/* プロフィール画像（SP/PC出し分け） */
+.profile-image-sp,
+.profile-image-pc {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* デフォルトはSP画像のみ表示 */
+.profile-image-sp {
+  display: block;
+}
+.profile-image-pc {
+  display: none;
+}
+
+/* === overlay（位置はSPとPCで変える） === */
+/* SP ベース：
+   - 上30%付近に GROOM
+   - 下30%付近に BRIDE
+   - 左寄せ
+*/
+.profile_overlay {
+  position: absolute;
+  inset: 0; /* 画像と同じサイズでかぶせる */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* 上側に1つ、下側に1つ */
+  align-items: flex-start;
+  padding: 10% 8%;
+  pointer-events: none;
+}
+
+.profile_box {
+  background: rgba(255,255,255,0.5);
+  color: #000;
+  padding: 16px 18px;
+  pointer-events: auto;
+  text-align: left;
+}
+
+.profile-role {
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0.85;
+  margin-bottom: 6px;
+}
+
+.profile-name-main {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.profile-name-sub {
+  font-size: 0.8rem;
+  line-height: 1.6;
+  opacity: 0.9;
+  margin-bottom: 10px;
+}
+
+.profile-name-sub span {
+  display: block;
+}
+
+.profile-body {
+  font-size: 0.85rem;
+  line-height: 1.8;
+}
+
+
+/* =========================================
+   当日のご案内（フルスクリーン）
+========================================= */
+.info {
+  padding: 0;
+}
+
+/* Info も full-bleed に */
+.info .section-inner {
+  max-width: none;
+  padding: 0;
+}
+
+/* 画像コンテナを画面いっぱいに */
+.info_image {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+  overflow: hidden;
+}
+
+/* Info 画像（SP/PC出し分け） */
+.info-image-sp,
+.info-image-pc {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* デフォルトは SP 画像のみ表示 */
+.info-image-sp {
+  display: block;
+}
+.info-image-pc {
+  display: none;
+}
+
+/* オーバーレイ（右下寄せベース） */
+.info_overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-end;
+  padding: 24px 32px 24px 24px;
+  pointer-events: none;
+}
+
+/* 情報ボックス */
+.info_box {
+  max-width: 720px;
+  padding: 20px 20px;
+  margin: 0;
+  background: rgba(255, 255, 255, 0.6);
+  color: #000;
+  text-align: center;
+  pointer-events: auto;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+/* 日時エリア */
+.info .date-body {
+  margin: 0 0 16px;
+}
+
+.info .date {
+  margin: 0 0 8px;
+  font-size: 0.9rem;
+  letter-spacing: 0.15em;
+}
+
+.info .date-body .lang-ja-only p,
+.info .date-body .lang-en-only p {
+  margin: 0 0 10px;
+  font-size: 0.9rem;
+}
+
+/* タイムライン行（受付 / 挙式 / 披露宴） */
+.info .date-body div div {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0px 20px 0px;
+  font-size: 0.8rem;
+}
+
+/* 場所エリア */
+.info .place-body {
+  margin: 0 0 16px;
+}
+
+.info .place {
+  margin: 0 0 8px;
+  font-size: 0.9rem;
+  letter-spacing: 0.15em;
+}
+
+.info .logo_place {
+  max-width: 200px;
+  margin: 8px auto;
+  text-align: center;
+}
+
+.info .logo_place img {
+  display: block;
+  margin: 0 auto;
+}
+
+.info .place-body .lang-ja-only p,
+.info .place-body .lang-en-only p {
+  margin: 10px 0 10px;
+  font-size: 0.9rem;
+}
+
+.info .place-body div div {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin: 2px 0;
+  font-size: 0.7rem;
+}
+
+/* Map リンク */
+.info .map-placeholder {
+  margin-top: 12px;
+}
+
+/* =========================================
+   Attendance（ご出欠）
+========================================= */
+.attend {
+  padding: 0;
+}
+
+.attend .section-inner {
+  max-width: none;
+  padding: 0;
+}
+
+.attend_image {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+  overflow: hidden;
+}
+
+/* 画像（SP/PC出し分け） */
+.attend-image-sp,
+.attend-image-pc {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* デフォルトはSP画像のみ表示 */
+.attend-image-sp {
+  display: block;
+}
+.attend-image-pc {
+  display: none;
+}
+
+/* === overlay（位置はSPとPCで変える） === */
+.attend_overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;    /* 左寄せ */
+  padding: 0 0 0 8px;
+  pointer-events: none;
+}
+
+.attend_box {
+  max-width: 720px;
+  width: 100%;                 /* 左側50%イメージ */
+  margin: 0;
+  padding: 16px 18px;
+  background: rgba(255,255,255,0.5);
+  color: #000000;
+  text-align: left;
+  pointer-events: auto;
+}
+
+.attend_note {
+  margin-bottom: 8px;
+  text-align: center;
+  color: #222;
+}
+
+.form_wrap {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.form_grid {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 16px 24px;
+}
+
+.form_field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.form_field_full {
+  grid-column: 1 / -1;
+}
+
+.form_field label {
+  font-size: 1rem;
+  color: #222;
+}
+
+.form_field input,
+.form_field textarea,
+.form_field select {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-family: inherit;
+  font-size: 1rem;
+  background-color: #fff;
+}
+
+.form_field textarea {
+  resize: vertical;
+}
+
+.lang-ja-area label {
+  display: block;        /* ラベルをブロック要素にして改行させる */
+  margin-bottom: 4px;    /* ラベルと入力欄の間に少し余白 */
+}
+
+.lang-ja-area input {
+  display: block;
+  width: 100%;           /* 必要なら横幅いっぱいに */
+  box-sizing: border-box;
+}
+
+.req {
+  color: #fb0800;
+  margin-left: 2px;
+  font-size: 1em;
+}
+
+.form_actions {
+  margin-top: 24px;
+  text-align: center;
+}
+
+.btn-primary {
+  display: inline-block;
+  padding: 10px 32px;
+  border-radius: 999px;
+  border: none;
+  font-size: 0.95rem;
+  font-family: inherit;
+  cursor: pointer;
+  background: #222;
+  color: #fff;
+  transition: opacity 0.2s, transform 0.1s;
+  text-decoration: none;
+}
+
+.btn-primary:hover {
+  opacity: 0.9;
+}
+
+.btn-primary:active {
+  transform: translateY(1px);
+}
+
+.rsvp-warning {
+  margin-top: 12px;
+  font-size: 0.8rem;
+  color: #222;
+}
+
+.rsvp_message {
+  margin-top: 16px;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.rsvp_message.success {
+  color: #2a79e0;
+}
+
+.rsvp_message.error {
+  color: #d9534f;
+}
+
+/* ----- SELECT（サイズ統一）----- */
+select {
+  width: 100%;
+  padding: 10px 12px;       /* input と合わせる */
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  background-color: #fff;
+
+  /* スマホで勝手にスタイルが付くのを防ぐ */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+
+  color: #333;
+}
+
+/* 内部の option 共通 */
+select option {
+  color: #333;
+}
+
+/* placeholder グレー */
+select .placeholder-option {
+  color: #999 !important;
+}
+
+/* 未選択状態（invalid → placeholder扱い） */
+select:invalid {
+  color: #999;   
+}
+
+/* 選択済み option（通常色） */
+select option:not(.placeholder-option) {
+  color: #333;
+}
+
+
+/* =========================================
+   RESPONSIVE (SP: max-width 768px)
+========================================= */
+@media (max-width: 768px) {
+  #logo {
+    bottom: 20px;
+    left: 16px;
+  }
+
+  #lang {
+    top: 12px;
+    left: 12px;
+  }
+
+  /* ハンバーガーボタンを右下に移動 */
+  #gnaviMenu {
+    display: block;
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 60;
+  }
+
+  #gnaviMenuBtn {
+    width: 48px;
+    height: 48px;
+    background: rgba(0,0,0,0.5);
+    border-radius: 20%;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+    transition: opacity .2s;
+  }
+
+  #gnaviMenuBtn img {
+    width: 26px;
+    height: 26px;
+  }
+
+  /* メニューアイコン切替 */
+  #menuOpen { display: block; }
+  #menuClose { display: none; }
+
+  body.nav-open #menuOpen { display: none; }
+  body.nav-open #menuClose { display: block; }
+
+  /* PC丸ナビ非表示 */
+  #gnaviPcList {
+    display: none;
+  }
+
+  .section-inner {
+    padding: 60px 16px;
+  }
+
+  .message_box h4 {
+    font-size: 0.85rem;
+  }
+
+  .messagingBy h3 {
+    font-size: 0.9rem;
+  }
+
+  .info_overlay {
+    justify-content: flex-start;
+    align-items: flex-end;
+    padding: 10px 10px;
+  }
+
+  .info_box {
+    padding: 12px 14px;
+    background: rgba(255, 255, 255, 0.8);
+  }
+
+  .profile-name-main {
+    font-size: 1.1rem;
+  }
+
+  .profile-body {
+    font-size: 0.8rem;
+  }
+
+  .profile_overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .profile_box--groom,
+  .profile_box--bride {
+    position: absolute;
+    width: 72vw;       /* ★画面幅の72%で固定（好みで調整） */
+    max-width: 360px;   /* 大きすぎ防止（任意） */
+    min-height: 140px;  /* 最低高さ（任意） */
+    pointer-events: auto;
+  }
+
+  /* Groom：左上 */
+  .profile_box--groom {
+    top: 3%;
+    left: 5%;
+  }
+
+  /* Bride：右下 */
+  .profile_box--bride {
+    bottom: 3%;
+    right: 5%;
+  }
+
+  .form_grid {
+    grid-template-columns: 1fr;
+  }
+
+    .attend_overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: center;   /* 縦方向：真ん中寄せ */
+    align-items: stretch;      /* 横幅いっぱいを使う */
+    padding: 0;                /* 余白なしにして全画面 */
+    pointer-events: none;
+  }
+
+  .attend_box {
+    max-width: none;           /* 720px 制限を解除 */
+    width: 100%;               /* 画面幅いっぱい */
+    min-height: 100vh;         /* 画面の高さぶん真っ白にする */
+    background: #ffffff75;       /* 透過なしの真っ白 */
+    pointer-events: auto;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;   /* 中身を縦方向センター寄せ（お好み） */
+    padding: 24px 18px;
+  }
+}
+
+
+
+/* =========================================
+   RESPONSIVE (PC: min-width 768px)
+   - 動画 & 画像出し分け／overlay位置調整
+========================================= */
+@media (min-width: 768px) {
+  /* FV動画切り替え */
+  #fvVideoSp {
+    display: none;
+  }
+  #fvVideoPc {
+    display: block;
+  }
+
+  /* 画像の出し分け（PC 用） */
+  .message-image-sp,
+  .profile-image-sp,
+  .info-image-sp,
+  .attend-image-sp {
+    display: none;
+  }
+
+  .message-image-pc,
+  .profile-image-pc,
+  .info-image-pc,
+  .attend-image-pc {
+    display: block;
+  }
+
+  .message_overlay {
+    justify-content: flex-end;
+  }
+
+  .profile_overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 0 10%;
+    gap: 50px;
+    pointer-events: none;
+  }
+
+  .profile_box {
+    position: static;       /* SP の absolute をリセット */
+    width: 100%;            /* overlay 内で同じ幅に */
+    max-width: 520px;
+    pointer-events: auto;
+  }
+
+  .profile_box--groom,
+  .profile_box--bride {
+    top: auto;
+    bottom: auto;
+    left: auto;
+    right: auto;
+  }
+
+  /* Attendance：上部50%に右上配置 */
+  .attend_overlay {
+    flex-direction: column;
+    justify-content: flex-start;   /* 上部に寄せる */
+    align-items: flex-end;         /* 右寄せ */
+    padding: 5% 5%;            /* 上8%, 右8% */
+  }
+
+  .attend_box {
+    width: 40%;
+    max-width: 480px;
+    text-align: left;
+  }
+}

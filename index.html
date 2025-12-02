@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <!-- META -->
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=2, user-scalable=yes">
+  <meta name="format-detection" content="email=no,telephone=no,address=no">
+  <link rel="icon" href="./assets/img/favicon.ico">
+
+  <title>Wedding Invitation Hosted by Natori</title>
+  <meta property="og:title" content="Wedding Invitation Hosted by Natori">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://">
+  <meta property="og:description" content="We will be having a wedding ceremony">
+  <meta property="og:image" content="./assets/img/info_yoko.jpg">
+  <meta property="og:site_name" content="Wedding Invitation Hosted by Natori">
+
+  <!-- FONT -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600&display=swap" rel="stylesheet">
+
+  <!-- MAIN CSS -->
+  <link rel="stylesheet" href="./assets/css/main.css">
+
+  <!-- MAIN JS -->
+  <script src="./assets/js/main.js" defer></script>
+</head>
+
+<body class="jp">
+  <main>
+    <div id="top"></div>
+    <div id="logoBg"></div>
+
+    <!-- LOGO -->
+    <h1 id="logo">
+      <img src="./assets/img/logo_tagline.svg" alt="結婚式ご招待状">
+    </h1>
+
+    <!-- GLOBAL NAVI -->
+    <nav id="gnavi">
+      <!-- SP：MENU -->
+      <div id="gnaviMenu">
+        <button id="gnaviMenuBtn" type="button" aria-label="menu">
+          <img id="menuOpen" src="./assets/img/icon_menu.svg" alt="Menu Open">
+          <img id="menuClose" src="./assets/img/icon_close.svg" alt="Menu Close">
+        </button>
+      </div>
+
+      <!-- SP：MENU DETAIL -->
+      <div id="gnaviOverlay">
+        <ul>
+          <li><a href="#top"><img src="./assets/img/nav_top.svg" alt="TOP"></a></li>
+          <li><a href="#profile"><img src="./assets/img/nav_profile.svg" alt="Profile"></a></li>
+          <li><a href="#info"><img src="./assets/img/nav_location.svg" alt="Location"></a></li>
+          <li><a href="#rsvp"><img src="./assets/img/nav_attendance.svg" alt="Attendance"></a></li>
+        </ul>
+      </div>
+
+      <!-- PC：MENU DETAIL -->
+      <ul id="gnaviPcList">
+        <li><a href="#top"><img src="./assets/img/nav_top.svg" alt="Top"></a></li>
+        <li><a href="#profile"><img src="./assets/img/nav_profile.svg" alt="Profile"></a></li>
+        <li><a href="#info"><img src="./assets/img/nav_location.svg" alt="Location"></a></li>
+        <li><a href="#rsvp"><img src="./assets/img/nav_attendance.svg" alt="Attendance"></a></li>
+      </ul>
+    </nav>
+
+    <!-- LANGUAGE -->
+    <nav id="lang">
+      <ul id="langList">
+        <li><button id="langJp" type="button"><img src="./assets/img/lang_jp.svg" alt="日本語"></button></li>
+        <li><button id="langEn" type="button"><img src="./assets/img/lang_en.svg" alt="English"></button></li>
+      </ul>
+    </nav>
+
+    <!-- FIRST VIEW -->
+    <section id="fvVideoArea">
+      <!-- SP -->
+      <video id="fvVideoSp" loop muted autoplay playsinline>
+        <source src="./assets/video/fv_tate.mp4" type="video/mp4">
+      </video>
+
+      <!-- PC -->
+      <video id="fvVideoPc" loop muted autoplay playsinline>
+        <source src="./assets/video/fv_yoko.mp4" type="video/mp4">
+      </video>
+
+      <div id="fvVideoCover"></div>
+      <div id="fvFadeOverlay"></div>
+    </section>
+    <!-- 動画の下に1画面分空間 → 最初のスナップ -->
+    <div id="fvVideoAreaSpace" class="snap-section"></div>
+
+    <!-- MESSAGE -->
+    <section class="message section-block snap-section">
+      <div class="section-inner">
+        <div class="message_image">
+          <!-- SP -->
+          <img class="message-image-sp" src="./assets/img/message_tate.jpg" alt="message">
+          <!-- PC -->
+          <img class="message-image-pc" src="./assets/img/message_yoko.jpg" alt="message">
+
+          <div class="message_overlay">
+            <div class="message_box">
+              <h4 class="lang-ja-only">
+                冬の訪れを感じる季節となりましたが<br>
+                皆さまお元気でお過ごしでしょうか<br><br>
+                私たちはこのたび結婚する運びとなりました<br><br>
+                日頃お世話になっている皆さまに<br>
+                感謝の気持ちをお伝えしたく ささやかながら<br>
+                結婚式を挙げることとなりました<br><br>
+                ご多用の中 恐れ入りますが<br>
+                ぜひご列席賜りますようお願い申し上げます
+              </h4>
+              <h4 class="lang-en-only">
+                As we feel the arrival of winter<br>
+                we hope you are doing well<br><br>
+                We are happy to share that<br>
+                we are getting married<br><br>
+                To thank everyone who has supported us<br>
+                we will be having a small wedding ceremony<br><br>
+                We would love for you to join us
+              </h4>
+
+              <div class="messagingBy">
+                <h3 class="lang-ja-only messaging-ja">
+                  １２月吉日<br>
+                  名取 虎之介<br>
+                  内田 桃香
+                </h3>
+                <h3 class="lang-en-only">
+                  December an auspicious day<br>
+                  Toranosuke Natori<br>
+                  Momoka Uchida
+                </h3>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROFILE -->
+    <section id="profile" class="profile section-block snap-section">
+      <div class="section-inner">
+        <div class="profile_image">
+          <!-- SP -->
+          <img class="profile-image-sp" src="./assets/img/profile_tate.jpg" alt="profile">
+          <!-- PC -->
+          <img class="profile-image-pc" src="./assets/img/profile_yoko.jpg" alt="profile">
+
+          <div class="profile_overlay">
+            <!-- 新郎 -->
+            <div class="profile_box profile_box--groom">
+              <div class="profile-role">
+                <span>GROOM</span>
+              </div>
+              <div class="profile-name-main">
+                <span class="lang-ja-only">名取 虎之介</span>
+                <span class="lang-en-only">Toranosuke Natori</span>
+              </div>
+              <div class="profile-name-sub">
+                <span class="lang-ja-only">生年月日：１９９８年２月１６日</span>
+                <span class="lang-en-only">Born：February 16 1998</span>
+                <span class="lang-ja-only">出身地：千葉県松戸市</span>
+                <span class="lang-en-only">From：Matsudo Chiba Japan</span>
+              </div>
+              <div class="profile-body">
+                <span class="lang-ja-only">
+                  広告代理店に勤務<br>
+                  MBTIは INTP-A (論理学者)<br>
+                  好きな食べ物はカレー<br>
+                  学生時代はサッカーに打ち込む<br>
+                  最近はRADWIMPSのトリビュートアルバムをよく聴く<br>
+                </span>
+                <span class="lang-en-only">
+                  Working at an advertising agency<br>           
+                  MBTI Type: INTP-A (Logician)<br>
+                  My favorite food is curry<br>
+                  Devoted to soccer during my school days<br>
+                  Lately has been listening to the RADWIMPS tribute album
+                </span>
+              </div>
+            </div>
+
+            <!-- 新婦 -->
+            <div class="profile_box profile_box--bride">
+              <div class="profile-role">
+                <span>BRIDE</span>
+              </div>
+              <div class="profile-name-main">
+                <span class="lang-ja-only">内田 桃香</span>
+                <span class="lang-en-only">Momoka Uchida</span>
+              </div>
+              <div class="profile-name-sub">
+                <span class="lang-ja-only">生年月日：１９９７年３月８日</span>
+                <span class="lang-en-only">Born：March 8 1997</span>
+                <span class="lang-ja-only">出身地：埼玉県東松山市</span>
+                <span class="lang-en-only">From：Higashi-matsuyama Saitama Japan</span>
+              </div>
+              <div class="profile-body">
+                <span class="lang-ja-only">
+                  建築会社に勤務<br>
+                  MBTIは INFJ-T (提唱者)<br>
+                  無類のチョコ好き<br>
+                  得意料理はハンバーグと餃子<br>
+                  邦ロックが趣味で毎年フェスに参戦
+                  
+                </span>
+                <span class="lang-en-only">
+                  Working at an architecture company<br>
+                  MBTI Type: INFJ-T (Advocate)<br>
+                  An avid chocolate lover<br>
+                  My specialty dishes are hamburger steak and gyoza<br>
+                  Enjoys Japanese rock music and attends music festivals every year
+                </span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- INFORMATION -->
+    <section id="info" class="info section-block snap-section">
+      <div class="section-inner">
+        <div class="info_image">
+          <!-- SP -->
+          <img class="info-image-sp" src="./assets/img/info_tate.jpg" alt="info main sp">
+          <!-- PC-->
+          <img class="info-image-pc" src="./assets/img/info_yoko.jpg" alt="info main pc">
+
+          <div class="info_overlay">
+
+            <div class="info_box">
+              <div class="date-body">
+                <span class="date lang-ja-only">日時</span>
+                <span class="date lang-en-only">Date and Time</span>
+
+                <div class="lang-ja-only">
+                  <p>２０２６年３月７日（土）</p>
+                  <div><span>受付</span><span>１２：３０</span></div>
+                  <div><span>挙式</span><span>１３：００</span></div>
+                  <div><span>披露宴</span><span>１４：００</span></div>
+                </div>
+
+                <div class="lang-en-only">
+                  <p>Saturday March 7 2026</p>
+                  <div><span>Reception</span><span>12:30 PM</span></div>
+                  <div><span>Ceremony</span><span>01:00 PM</span></div>
+                  <div><span>Wedding Banquet</span><span>02:00 PM</span></div>
+                </div>
+              </div>
+
+              <div class="place-body">
+                <span class="place lang-ja-only">場所</span>
+                <span class="place lang-en-only">Place</span>
+
+                <div class="logo_place">
+                  <img src="./assets/img/logo_ishimarutei.png" alt="Ishimarutei_logo">
+                </div>
+
+                <div class="lang-ja-only">
+                  <p>〒１０６ー００４７<br>東京都港区南麻布５ー２ー３</p>
+                  <div><span>東京メトロ日比谷線 広尾駅３番口より徒歩４分</span></div>
+                  <div><span>電話 ０３ー５８６０ー２４１３</span></div>
+                </div>
+
+                <div class="lang-en-only">
+                  <p>
+                    5-2-3 Minami-azabu Minato-ku<br>
+                    Tokyo 106-0047 Japan<br>
+                  </p>
+                  <div>
+                    <span>
+                      4 minutes walk from Exit 3 of Hiroo Station<br>
+                      on the Tokyo Metro Hibiya Line<br>
+                    </span>
+                  </div>
+                </div>
+
+                
+                <div class="map-placeholder">
+                    <a 
+                    href="https://maps.app.goo.gl/RJTrqdgLw1PS6YzQ8"
+                    class="btn-primary map-link"
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    >
+                    Google Map
+                    </a>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ATTENDANCE / RSVP -->
+    <section id="rsvp" class="attend section-block snap-section">
+      <div class="section-inner">
+        <div class="attend_image">
+          <!-- SP -->
+          <img class="attend-image-sp" src="./assets/img/attendance_tate.jpg" alt="attend">
+          <!-- PC -->
+          <img class="attend-image-pc" src="./assets/img/attendance_yoko.jpg" alt="attend">
+
+          <div class="attend_overlay">
+            <div class="attend_box">
+              <p class="attend_note">
+                <span class="lang-ja-only">
+                  勝手ながら １２月３１日（水）までに<br>
+                  ご出欠のお返事をいただけますと幸いです
+                </span>
+                <span class="lang-en-only">
+                  We'd appreciate it if you could kindly reply<br>by December 31
+                </span>
+              </p>
+
+              <div class="form_wrap">
+                <form id="form" novalidate>
+                  <div class="form_grid">
+                    <!-- 氏名 / Name -->
+                    <div class="form_field">
+                      <label for="guestName">
+                        <span class="lang-ja-only">お名前<span class="req">*</span></span>
+                        <span class="lang-en-only">Name<span class="req">*</span></span>
+                      </label>
+                      <input
+                        type="text"
+                        id="guestName"
+                        name="name"
+                        required
+                        data-placeholder-ja="例）山田 太郎"
+                        data-placeholder-en="e.g. John Smith"
+                      >
+                    </div>
+
+                    <!-- 読み仮名（日本語のみ） -->
+                    <div class="form_field form_field_full lang-ja-area">
+                      <label for="guestKana">
+                        <span class="lang-ja-only">ふりがな<span class="req">*</span></span>
+                      </label>
+                      <input
+                        type="text"
+                        id="guestKana"
+                        name="nameKana"
+                        required
+                        data-placeholder-ja="例）やまだ たろう"
+                        data-placeholder-en=""
+                      >
+                    </div>
+
+                    <!-- 参加可否 -->
+                    <div class="form_field">
+                      <label for="attendance">
+                        <span class="lang-ja-only">ご出欠<span class="req">*</span></span>
+                        <span class="lang-en-only">Attendance<span class="req">*</span></span>
+                      </label>
+                      <select id="attendance" name="attendance" required>
+                        <option value="" disabled selected hidden class="placeholder-option" data-label-ja="選択してください" data-label-en="Please select">
+                          選択してください
+                        </option>
+                        <option value="attend" data-label-ja="出席" data-label-en="I will attend">
+                          出席します
+                        </option>
+                        <option value="absent" data-label-ja="欠席" data-label-en="I will not be able to attend">
+                          欠席します
+                        </option>
+                      </select>
+                    </div>
+
+                    <!-- アレルギー -->
+                    <div class="form_field form_field_full">
+                      <label for="allergies">
+                        <span class="lang-ja-only">アレルギー等による食事制限、苦手な食材</span>
+                        <span class="lang-en-only">Food allergies / dietary restrictions</span>
+                      </label>
+                      <textarea
+                        id="allergies"
+                        name="allergies"
+                        rows="2"
+                        data-placeholder-ja="例）甲殻類アレルギー / 生ものが苦手"
+                        data-placeholder-en="e.g. Shellfish allergy / cannot eat raw fish"
+                      ></textarea>
+                    </div>
+                    
+                    <!-- 任意メッセージ -->
+                    <div class="form_field form_field_full">
+                        <label for="guestMessage">
+                            <span class="lang-ja-only">メッセージ（任意）</span>
+                            <span class="lang-en-only">Message (optional)</span>
+                        </label>
+                        <textarea
+                        id="guestMessage"
+                        name="message"
+                        rows="2"
+                        data-placeholder-ja="例）楽しみです"
+                        data-placeholder-en="e.g. Looking forward to the wedding!"
+                        ></textarea>
+                    </div>
+                </div>
+                    
+                  <div class="form_actions">
+                    <button type="submit" class="btn-primary">
+                      <span class="lang-ja-only">送信する</span>
+                      <span class="lang-en-only">Submit</span>
+                    </button>
+                    <p class="rsvp-warning">
+                      <span class="lang-ja-only">
+                        送信ボタンを押して数秒後<br>
+                        送信完了メッセージが表示されます<br>
+                        通信状況によりお時間を要する場合がございます
+                      </span>
+                      <span class="lang-en-only">
+                        After clicking the button<br>
+                        a confirmation message will appear in a few seconds<br>
+                        It may take a little time depending on your connection
+                      </span>
+                    </p>
+                    
+                    <!-- JS が .rsvp_message をここに append -->
+                  </div>
+                </form>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+</body>
+</html>
