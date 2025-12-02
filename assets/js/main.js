@@ -204,7 +204,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 // ========================================
-// RSVP フォーム送信（必須チェック追加版）
+// RSVP フォーム送信（CORS対応 / 通常fetch版）
 // ========================================
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('form');
@@ -221,7 +221,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const allergies = document.getElementById('allergies')?.value || '';
     const message = document.getElementById('guestMessage')?.value || '';
 
-    // ---- エラーメッセージ表示枠 ----
+    // ---- メッセージ枠 ----
     let msg = document.querySelector('.rsvp_message');
     if (!msg) {
       msg = document.createElement('div');
@@ -229,9 +229,7 @@ document.addEventListener('DOMContentLoaded', () => {
       form.appendChild(msg);
     }
 
-    // ============================================
-    //  必須チェック
-    // ============================================
+    // --- 必須チェック ---
     if (!name) {
       msg.className = "rsvp_message error";
       msg.textContent = lang === 'jp'
@@ -254,40 +252,43 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    // ============================================
-    //  送信開始
-    // ============================================
-    msg.classList.remove("error");
-    msg.classList.add("info");
-    msg.textContent = lang === 'jp' ? '送信中...' : 'Sending...';
+    // --- 送信開始 ---
+    msg.className = "rsvp_message info";
+    msg.textContent = lang === "jp" ? "送信中..." : "Sending...";
 
     const payload = { name, nameKana, attendance, allergies, message, lang };
 
     try {
-      await fetch(ENDPOINT_URL, {
+      const res = await fetch(ENDPOINT_URL, {
         method: 'POST',
-        mode: 'no-cors',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(payload)
       });
 
-      msg.classList.remove('error');
-      msg.classList.add('success');
-      msg.innerHTML = lang === 'jp'
-        ? '送信が完了しました<br>ご回答いただきありがとうございます'
-        : 'Your response has been sent Thank you!';
+      // ここで **JSON が返ってくる**
+      const result = await res.json();
 
-      form.reset();
+      if (result.result === "success") {
+        msg.className = "rsvp_message success";
+        msg.innerHTML = lang === 'jp'
+          ? '送信が完了しました<br>ご回答いただきありがとうございます'
+          : 'Your response has been sent. Thank you!';
+
+        form.reset();
+      } else {
+        throw new Error(result.message || "GAS処理に失敗");
+      }
 
     } catch (err) {
-      msg.classList.remove('success');
-      msg.classList.add('error');
+      msg.className = "rsvp_message error";
       msg.textContent = lang === 'jp'
-        ? '送信に失敗しました 通信環境をご確認ください '
-        : 'Failed to send Please check your connection';
-      console.error(err);
+        ? '送信に失敗しました。通信環境をご確認ください。'
+        : 'Failed to send. Please check your connection.';
+
+      console.error("送信エラー:", err);
     }
+
   });
 });
