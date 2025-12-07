@@ -196,6 +196,7 @@ body.after-profile #logo {
 /* =========================================
    グローバルナビ
 ========================================= */
+/* グロナビ本体はクリックを通す */
 #gnavi {
   position: fixed;
   left: 0;
@@ -204,6 +205,13 @@ body.after-profile #logo {
   z-index: 4;
   opacity: 1;
   transition: opacity .4s ease;
+  pointer-events: none; /* ★追加：空いている部分はクリックを通す */
+}
+
+/* 実際のボタン部分だけクリックできるようにする */
+#gnaviMenu,
+#gnaviPcList {
+  pointer-events: auto; /* ★追加：アイコン・丸ナビは反応する */
 }
 
 /* ハンバーガー（SP） */
