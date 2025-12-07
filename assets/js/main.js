@@ -1,5 +1,5 @@
 // ===== RSVP 送信先（GAS WebアプリURL） =====
-const ENDPOINT_URL = 'https://script.google.com/macros/library/d/1wgb5XujD-FfNHpxZTV272jlmW7EFDS_7-FwSJuqRZ3H-yzrOxUiE-qXN/4';
+const ENDPOINT_URL = 'https://script.google.com/macros/s/AKfycbwQ2W4qKUJfJ3FkeIoDBHEQjDwpaA05QbN3mwd5V0_Zqzp9u3nL3RGUBgHuHu37pvTL/exec';
 
 document.addEventListener("DOMContentLoaded", () => {
   const body = document.body;
@@ -204,7 +204,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 // ========================================
-// RSVP フォーム送信（CORS対応 / 通常fetch版）
+// RSVP フォーム送信（必須チェック追加版）
 // ========================================
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('form');
@@ -221,15 +221,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const allergies = document.getElementById('allergies')?.value || '';
     const message = document.getElementById('guestMessage')?.value || '';
 
-    // ---- メッセージ枠 ----
-    let msg = document.querySelector('.rsvp_message');
+    // ---- メッセージ表示枠（form_actions の中に出す） ----
+    const actions = form.querySelector('.form_actions') || form;
+    let msg = actions.querySelector('.rsvp_message');
     if (!msg) {
       msg = document.createElement('div');
       msg.className = 'rsvp_message';
-      form.appendChild(msg);
+      actions.appendChild(msg);   // ★ form ではなく .form_actions に追加
     }
 
-    // --- 必須チェック ---
+    // ============================================
+    //  必須チェック
+    // ============================================
     if (!name) {
       msg.className = "rsvp_message error";
       msg.textContent = lang === 'jp'
@@ -252,43 +255,37 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    // --- 送信開始 ---
+    // ============================================
+    //  送信開始
+    // ============================================
     msg.className = "rsvp_message info";
-    msg.textContent = lang === "jp" ? "送信中..." : "Sending...";
+    msg.textContent = lang === 'jp' ? '送信中...' : 'Sending...';
 
     const payload = { name, nameKana, attendance, allergies, message, lang };
 
     try {
-      const res = await fetch(ENDPOINT_URL, {
+      await fetch(ENDPOINT_URL, {
         method: 'POST',
+        mode: 'no-cors',                  // ← いったんこのままでもOK（シート書けてるので）
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(payload)
       });
 
-      // ここで **JSON が返ってくる**
-      const result = await res.json();
+      msg.className = 'rsvp_message success';
+      msg.innerHTML = lang === 'jp'
+        ? '送信が完了しました ご回答いただきありがとうございます'
+        : 'Your response has been sent Thank you!';
 
-      if (result.result === "success") {
-        msg.className = "rsvp_message success";
-        msg.innerHTML = lang === 'jp'
-          ? '送信が完了しました<br>ご回答いただきありがとうございます'
-          : 'Your response has been sent. Thank you!';
-
-        form.reset();
-      } else {
-        throw new Error(result.message || "GAS処理に失敗");
-      }
+      form.reset();
 
     } catch (err) {
       msg.className = "rsvp_message error";
       msg.textContent = lang === 'jp'
-        ? '送信に失敗しました。通信環境をご確認ください。'
-        : 'Failed to send. Please check your connection.';
-
-      console.error("送信エラー:", err);
+        ? '送信に失敗しました 通信環境をご確認ください'
+        : 'Failed to send Please check your connection';
+      console.error(err);
     }
-
   });
 });
