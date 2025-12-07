@@ -688,9 +688,10 @@ body.after-fv #lang {
 
 .attend_box {
   max-width: 720px;
-  width: 100%;                 /* 左側50%イメージ */
+  width: 90%;                 /* 左側50%イメージ */
   margin: 0;
-  padding: 16px 18px;
+  margin-top: -6vh;
+  padding: 24px 18px;
   background: rgba(255,255,255,0.5);
   color: #000000;
   text-align: left;
