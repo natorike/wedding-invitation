@@ -192,118 +192,17 @@ body.after-profile #logo {
   opacity: 1;
 }
 
-
-/* =========================================
-   グローバルナビ
-========================================= */
-/* グロナビ本体はクリックを通す */
-#gnavi {
-  position: fixed;
-  left: 0;
-  bottom: 16px;
-  width: 100%;
-  z-index: 4;
-  opacity: 1;
-  transition: opacity .4s ease;
-  pointer-events: none; /* ★追加：空いている部分はクリックを通す */
-}
-
-/* 実際のボタン部分だけクリックできるようにする */
-#gnaviMenu,
-#gnaviPcList {
-  pointer-events: auto; /* ★追加：アイコン・丸ナビは反応する */
-}
-
-/* ハンバーガー（SP） */
-#gnaviMenu {
-  display: none; /* SPで上書き */
-}
-
-/* オーバーレイメニュー（黒枠） */
-#gnaviOverlay {
-  position: fixed;
-  inset: 0;
-  z-index: 40;
-  background: transparent;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity .35s ease;
-
-  display: flex;
-  justify-content: flex-end;
-  align-items: flex-end;
-  padding: 20px;
-}
-
-/* nav-open 時に表示（JSで body.nav-open を操作） */
-body.nav-open #gnaviOverlay {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-/* 黒パネル（右下） */
-#gnaviOverlay ul {
-  position: relative;
-  list-style: none;
-  margin: 0;
-  padding: 5px 26px;
-  width: 240px;
-  background: rgba(0, 0, 0, 0.6);
-  box-shadow: 0 12px 32px rgba(0,0,0,0.35);
-  text-align: left;
-  pointer-events: auto;
-}
-
-/* メニュー項目 */
-#gnaviOverlay li + li {
-  margin-top: 8px;
-}
-
-#gnaviOverlay a {
-  display: block;
-  padding: 10px 0;
-  font-size: 1.2rem;
-  letter-spacing: 0.15em;
-  color: #fff;
-  opacity: 0.9;
-  text-decoration: none;
-}
-
-#gnaviOverlay a:hover {
-  opacity: 1;
-}
-
-/* PC用：下部丸ナビ */
-#gnaviPcList {
-  display: flex;
-  gap: 12px;
-  list-style: none;
-  margin: 0 auto;
-  padding: 8px 16px;
-  border-radius: 999px;
-  background: rgba(0,0,0,0.4);
-  backdrop-filter: blur(10px);
-  width: fit-content;
-}
-
-#gnaviPcList a {
-  display: block;
-  opacity: 0.65;
-  transition: opacity 0.2s;
-}
-
-#gnaviPcList a.current,
-#gnaviPcList a:hover {
-  opacity: 1;
-}
-
 /* FVを抜けたら lang / gnavi を消す */
-body.after-fv #gnavi,
 body.after-fv #lang {
   opacity: 0;
   pointer-events: none;
 }
 
+/* ▼ message セクション以降はナビ完全無効化 */
+body.nav-disabled #lang {
+  pointer-events: none !important;
+  opacity: 0 !important;
+}
 
 /* =========================================
    セクション共通
