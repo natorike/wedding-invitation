@@ -207,6 +207,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // RSVP フォーム送信（必須チェック追加版）
 // ========================================
 document.addEventListener('DOMContentLoaded', () => {
+  console.log('RSVP submit handler START');
   const form = document.getElementById('form');
   if (!form) return;
 
